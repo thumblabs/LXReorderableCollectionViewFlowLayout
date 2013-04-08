@@ -28,13 +28,13 @@ typedef NS_ENUM(NSInteger, LXScrollingDirection) {
 static NSString * const kLXScrollingDirectionKey = @"LXScrollingDirection";
 static NSString * const kLXCollectionViewKeyPath = @"collectionView";
 
-@interface UICollectionViewCell (LXReorderableCollectionViewFlowLayout)
+@interface PSTCollectionViewCell (LXReorderableCollectionViewFlowLayout)
 
 - (UIImage *)LX_rasterizedImage;
 
 @end
 
-@implementation UICollectionViewCell (LXReorderableCollectionViewFlowLayout)
+@implementation PSTCollectionViewCell (LXReorderableCollectionViewFlowLayout)
 
 - (UIImage *)LX_rasterizedImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0f);
@@ -109,7 +109,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
     [self removeObserver:self forKeyPath:kLXCollectionViewKeyPath];
 }
 
-- (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
+- (void)applyLayoutAttributes:(PSTCollectionViewLayoutAttributes *)layoutAttributes {
     if ([layoutAttributes.indexPath isEqual:self.selectedItemIndexPath]) {
         layoutAttributes.hidden = YES;
     }
@@ -256,7 +256,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
                 [self.delegate collectionView:self.collectionView layout:self willBeginDraggingItemAtIndexPath:self.selectedItemIndexPath];
             }
             
-            UICollectionViewCell *collectionViewCell = [self.collectionView cellForItemAtIndexPath:self.selectedItemIndexPath];
+            PSTCollectionViewCell *collectionViewCell = [self.collectionView cellForItemAtIndexPath:self.selectedItemIndexPath];
             
             self.currentView = [[UIView alloc] initWithFrame:collectionViewCell.frame];
             
@@ -313,7 +313,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
                 self.selectedItemIndexPath = nil;
                 self.currentViewCenter = CGPointZero;
                 
-                UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForItemAtIndexPath:currentIndexPath];
+                PSTCollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForItemAtIndexPath:currentIndexPath];
                 
                 __weak typeof(self) weakSelf = self;
                 [UIView
@@ -356,7 +356,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
             [self invalidateLayoutIfNecessary];
             
             switch (self.scrollDirection) {
-                case UICollectionViewScrollDirectionVertical: {
+                case PSTCollectionViewScrollDirectionVertical: {
                     if (viewCenter.y < (CGRectGetMinY(self.collectionView.bounds) + self.scrollingTriggerEdgeInsets.top)) {
                         [self setupScrollTimerInDirection:LXScrollingDirectionUp];
                     } else {
@@ -367,7 +367,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
                         }
                     }
                 } break;
-                case UICollectionViewScrollDirectionHorizontal: {
+                case PSTCollectionViewScrollDirectionHorizontal: {
                     if (viewCenter.x < (CGRectGetMinX(self.collectionView.bounds) + self.scrollingTriggerEdgeInsets.left)) {
                         [self setupScrollTimerInDirection:LXScrollingDirectionLeft];
                     } else {
@@ -389,12 +389,12 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
     }
 }
 
-#pragma mark - UICollectionViewLayout overridden methods
+#pragma mark - PSTCollectionViewLayout overridden methods
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSArray *layoutAttributesForElementsInRect = [super layoutAttributesForElementsInRect:rect];
     
-    for (UICollectionViewLayoutAttributes *layoutAttributes in layoutAttributesForElementsInRect) {
+    for (PSTCollectionViewLayoutAttributes *layoutAttributes in layoutAttributesForElementsInRect) {
         switch (layoutAttributes.representedElementCategory) {
             case UICollectionElementCategoryCell: {
                 [self applyLayoutAttributes:layoutAttributes];
@@ -408,8 +408,8 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
     return layoutAttributesForElementsInRect;
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewLayoutAttributes *layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
+- (PSTCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PSTCollectionViewLayoutAttributes *layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
     
     switch (layoutAttributes.representedElementCategory) {
         case UICollectionElementCategoryCell: {
