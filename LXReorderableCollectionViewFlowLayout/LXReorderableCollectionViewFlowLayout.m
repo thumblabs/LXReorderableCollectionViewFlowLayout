@@ -284,6 +284,9 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
              animations:^{
                  __strong typeof(self) strongSelf = weakSelf;
                  if (strongSelf) {
+                     if (self.longPressAnimationBlock) {
+                         self.longPressAnimationBlock();
+                     }
                      strongSelf.currentView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
                      highlightedImageView.alpha = 0.0f;
                      imageView.alpha = 1.0f;
